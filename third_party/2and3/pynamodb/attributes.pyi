@@ -11,6 +11,15 @@ _KT = TypeVar('_KT')
 _VT = TypeVar('_VT')
 _MT = TypeVar('_MT', bound='MapAttribute')
 _AT = TypeVar('_AT', bound='Attribute')
+_NT = TypeVar('_NT', bound='_NullableAttribute')
+
+
+class _NullableAttribute(Generic[_AT, _T], _AT):
+    @overload
+    def __get__(self, instance: Model, owner: Any) -> Optional[_T]: ...
+    @overload
+    def __get__(self: _NT, instance: None, owner: Any) -> _NT: ...
+
 
 class Attribute(Generic[_T]):
     attr_name: Optional[Text]
